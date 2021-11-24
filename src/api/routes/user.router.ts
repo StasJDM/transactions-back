@@ -9,6 +9,12 @@ router.get('/', async (req: Request, res: Response) => {
   res.json(users);
 });
 
+router.get('/:id', async (req: Request, res: Response) => {
+  const controller = new UserController();
+  const user = await controller.getUserById(req.params.id);
+  res.json(user);
+});
+
 router.post('/', async (req: Request, res: Response) => {
   const controller = new UserController();
   const createdUser = await controller.createUser(req.body);

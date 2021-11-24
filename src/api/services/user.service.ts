@@ -8,6 +8,11 @@ export class UserService {
     return [error, users];
   }
 
+  public async getUserById(id: string) {
+    const [error, user] = await new UserRepository().getById(id);
+    return [error, user];
+  }
+
   public async createUser(user: UserCreationAttributes) {
     const [error, result] = await new UserRepository().create({
       id: uuid(),

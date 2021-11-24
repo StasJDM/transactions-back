@@ -10,6 +10,15 @@ export class UserRepository {
     }
   }
 
+  public async getById(id: string) {
+    try {
+      const user = await User.findByPk(id);
+      return [null, user];
+    } catch (err) {
+      return [err, null];
+    }
+  }
+
   public async create(user: UserCreationAttributes) {
     try {
       const result = await User.create(user);
