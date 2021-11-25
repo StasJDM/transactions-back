@@ -16,7 +16,7 @@ export class UserService {
   public async createUser(user: UserCreationAttributes) {
     const [error, result] = await new UserRepository().create({
       id: uuid(),
-      ...user
+      ...user,
     });
     return [error, result];
   }

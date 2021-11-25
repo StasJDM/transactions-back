@@ -11,7 +11,7 @@ interface UserAttributes {
   salt: string;
 }
 
-export interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+export type UserCreationAttributes = Optional<UserAttributes, 'id'>;
 
 interface UserInstance extends Model<UserAttributes, UserCreationAttributes>, UserAttributes {
   createdAt?: string;
@@ -24,29 +24,29 @@ const User = sequelize.define<UserInstance>('User', {
     autoIncrement: false,
     primaryKey: true,
     type: DataTypes.UUID,
-    unique: true
+    unique: true,
   },
   email: {
     allowNull: false,
     unique: true,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   first_name: {
     allowNull: false,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   last_name: {
     allowNull: false,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   password: {
     allowNull: false,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   salt: {
     allowNull: false,
-    type: DataTypes.STRING
-  }
+    type: DataTypes.STRING,
+  },
 });
 
 export default User;
