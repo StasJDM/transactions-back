@@ -1,9 +1,10 @@
 import { uuid } from 'uuidv4';
 import { UserRepository } from '../repositories/user.repositories';
 import * as bcrypt from 'bcrypt';
-import { HASH_ROUNDS } from '../constants';
+import { HASH_ROUNDS, JWT_ACCESS_TOKEN_EXPIRE_TIME, JWT_SECRET } from '../constants';
 import { Return } from '../types';
 import { UserInstance } from '../../db/models/user.model';
+import * as jwt from 'jsonwebtoken';
 
 interface LoginRequest {
   email: string;
@@ -15,6 +16,10 @@ interface RegisterInterface {
   password: string;
   first_name: string;
   last_name: string;
+}
+
+interface AccessToken {
+  access_token: string;
 }
 
 export class AuthService {
@@ -40,21 +45,27 @@ export class AuthService {
     return [error, result];
   }
 
-  public async login(loginData: LoginRequest): Promise<Return<UserInstance>> {
+  public async login(loginData: LoginRequest): Promise<Return<AccessToken>> {
     const userRepository = new UserRepository();
 
     const [error, user] = await userRepository.getByEmail(loginData.email);
 
-    if (error) return [error, user];
+    if (error) return [error, null];
 
     if (!user) return [{ message: 'Wrong login or password' }, null];
 
     const isPasswordMatch = await bcrypt.compare(loginData.password, user.password);
 
     if (isPasswordMatch) {
-      return [null, user];
+      const userInfo = { id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name };
+      const access_token = this._generateAccessToken(userInfo);
+      return [null, { access_token }];
     } else {
       return [{ message: 'Wrong login or password' }, null];
     }
+  }
+
+  private _generateAccessToken(userInfo): string {
+    return jwt.sign(userInfo, JWT_SECRET, { expiresIn: JWT_ACCESS_TOKEN_EXPIRE_TIME });
   }
 }
