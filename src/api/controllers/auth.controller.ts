@@ -1,13 +1,27 @@
+import { Response } from 'express';
+import { Request } from 'express-validator/src/base';
 import { AuthService } from '../services/auth.service';
 
 export class AuthController {
-  public async login(body: { email: string; password: string }) {
+  public static async login(req: Request, res: Response): Promise<void> {
     const authService = new AuthService();
-    return await authService.login(body);
+    const [error, result] = await authService.login(req.body);
+
+    if (error) {
+      res.json(error);
+    } else {
+      res.json(result);
+    }
   }
 
-  public async register(body: { email: string; password: string; first_name: string; last_name: string }) {
+  public static async register(req: Request, res: Response): Promise<void> {
     const authService = new AuthService();
-    return await authService.registerUser(body);
+    const [error, result] = await authService.registerUser(req.body);
+
+    if (error) {
+      res.json(error);
+    } else {
+      res.json(result);
+    }
   }
 }

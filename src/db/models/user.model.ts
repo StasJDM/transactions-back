@@ -13,7 +13,7 @@ interface UserAttributes {
 
 export type UserCreationAttributes = Optional<UserAttributes, 'id'>;
 
-interface UserInstance extends Model<UserAttributes, UserCreationAttributes>, UserAttributes {
+export interface UserInstance extends Model<UserAttributes, UserCreationAttributes>, UserAttributes {
   createdAt?: string;
   updatedAt?: string;
 }

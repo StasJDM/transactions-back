@@ -1,7 +1,8 @@
-import User, { UserCreationAttributes } from '../../db/models/user.model';
+import User, { UserCreationAttributes, UserInstance } from '../../db/models/user.model';
+import { Return } from '../types';
 
 export class UserRepository {
-  public async getAll() {
+  public async getAll(): Promise<Return<UserInstance[]>> {
     try {
       const users = await User.findAll();
       return [null, users];
@@ -10,7 +11,7 @@ export class UserRepository {
     }
   }
 
-  public async getById(id: string) {
+  public async getById(id: string): Promise<Return<UserInstance>> {
     try {
       const user = await User.findByPk(id);
       return [null, user];
@@ -19,7 +20,7 @@ export class UserRepository {
     }
   }
 
-  public async getByEmail(email: string) {
+  public async getByEmail(email: string): Promise<Return<UserInstance>> {
     try {
       const user = await User.findOne({ where: { email } });
       return [null, user];
@@ -28,7 +29,7 @@ export class UserRepository {
     }
   }
 
-  public async create(user: UserCreationAttributes) {
+  public async create(user: UserCreationAttributes): Promise<Return<UserInstance>> {
     try {
       const result = await User.create(user);
       return [null, result];

@@ -2,9 +2,23 @@ import { uuid } from 'uuidv4';
 import { UserRepository } from '../repositories/user.repositories';
 import * as bcrypt from 'bcrypt';
 import { HASH_ROUNDS } from '../constants';
+import { Return } from '../types';
+import { UserInstance } from '../../db/models/user.model';
+
+interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+interface RegisterInterface {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+}
 
 export class AuthService {
-  public async registerUser(user: { email: string; password: string; first_name: string; last_name: string }) {
+  public async registerUser(user: RegisterInterface): Promise<Return<UserInstance>> {
     const userRepository = new UserRepository();
 
     const [checkUserError, existingUser] = await userRepository.getByEmail(user.email);
@@ -26,7 +40,7 @@ export class AuthService {
     return [error, result];
   }
 
-  public async login(loginData: { email: string; password: string }) {
+  public async login(loginData: LoginRequest): Promise<Return<UserInstance>> {
     const userRepository = new UserRepository();
 
     const [error, user] = await userRepository.getByEmail(loginData.email);

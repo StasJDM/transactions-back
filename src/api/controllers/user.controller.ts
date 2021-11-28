@@ -1,18 +1,33 @@
+import { Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 
 export class UserController {
-  public async getUsers() {
+  public static async getUsers(req: Request, res: Response): Promise<void> {
     const userService = new UserService();
-    return userService.getAll();
+    const [error, users] = await userService.getAll();
+
+    if (error) {
+      res.status(500).json(error);
+    }
+    if (!users && !users.length) {
+      res.status(404).json({ message: 'Users not found' });
+    } else {
+      res.json(users);
+    }
   }
 
-  public async getUserById(id: string) {
+  public static async getUserById(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
     const userService = new UserService();
-    return userService.getUserById(id);
-  }
+    const [error, user] = await userService.getUserById(id);
 
-  public async createUser(body) {
-    const userService = new UserService();
-    return userService.createUser(body);
+    if (error) {
+      res.status(500).json(error);
+    }
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+    } else {
+      res.json(user);
+    }
   }
 }

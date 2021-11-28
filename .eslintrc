@@ -3,5 +3,8 @@
   "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
   "parserOptions": { "ecmaVersion": 2018, "sourceType": "module" },
   "plugins": ["prettier"],
-  "rules": { "prettier/prettier": "error" }
+  "rules": {
+    "prettier/prettier": "error",
+    "@typescript-eslint/explicit-function-return-type": "warn"
+  }
 }
