@@ -5,25 +5,14 @@ import { HASH_ROUNDS, JWT_ACCESS_TOKEN_EXPIRE_TIME, JWT_SECRET } from '../consta
 import { Return } from '../types';
 import { UserInstance } from '../../db/models/user.model';
 import * as jwt from 'jsonwebtoken';
-
-interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-interface RegisterInterface {
-  email: string;
-  password: string;
-  first_name: string;
-  last_name: string;
-}
+import { LoginRequest, RegisterRequest } from '../requests';
 
 interface AccessToken {
   access_token: string;
 }
 
 export class AuthService {
-  public async registerUser(user: RegisterInterface): Promise<Return<UserInstance>> {
+  public async registerUser(user: RegisterRequest): Promise<Return<UserInstance>> {
     const userRepository = new UserRepository();
 
     const [checkUserError, existingUser] = await userRepository.getByEmail(user.email);

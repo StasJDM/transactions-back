@@ -1,6 +1,7 @@
 'use strict';
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '.';
+import Transaction from './transaction.model';
 
 interface UserAttributes {
   id: string;
@@ -48,5 +49,11 @@ const User = sequelize.define<UserInstance>('User', {
     type: DataTypes.STRING,
   },
 });
+
+User.hasMany(Transaction, { sourceKey: 'id', foreignKey: 'id_from' });
+User.hasMany(Transaction, { sourceKey: 'id', foreignKey: 'id_to' });
+
+Transaction.belongsTo(User, { foreignKey: 'id_from' });
+Transaction.belongsTo(User, { foreignKey: 'id_to' });
 
 export default User;
