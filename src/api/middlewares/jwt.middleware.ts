@@ -11,7 +11,7 @@ export const checkJwtToken = (req: Request, res: Response, next: NextFunction): 
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
 
-    // TODO: Store user info in request
+    req.user = user;
 
     next();
   });
