@@ -14,3 +14,9 @@ export const loginValidator = [
   check('password').notEmpty().isString().isLength({ min: 8 }),
   handleValidationError,
 ];
+
+export const changePasswordValidator = [
+  check('old_password').notEmpty().isString().isLength({ min: 8 }),
+  check('new_password').notEmpty().isString().isLength({ min: 8 }),
+  handleValidationError,
+];

@@ -37,4 +37,13 @@ export class UserRepository {
       return [error, null];
     }
   }
+
+  public async update(id: string, user: Partial<UserCreationAttributes>): Promise<Return<number>> {
+    try {
+      const [result, users] = await User.update(user, { where: { id } });
+      return [null, result];
+    } catch (error) {
+      return [error, null];
+    }
+  }
 }

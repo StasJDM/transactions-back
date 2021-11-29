@@ -5,7 +5,7 @@ import { HASH_ROUNDS, JWT_ACCESS_TOKEN_EXPIRE_TIME, JWT_SECRET } from '../consta
 import { Return } from '../types';
 import { UserInstance } from '../../db/models/user.model';
 import * as jwt from 'jsonwebtoken';
-import { LoginRequest, RegisterRequest } from '../requests';
+import { ChangePasswordRequest, LoginRequest, RegisterRequest } from '../requests';
 
 interface AccessToken {
   access_token: string;
@@ -51,6 +51,33 @@ export class AuthService {
       return [null, { access_token }];
     } else {
       return [{ message: 'Wrong login or password' }, null];
+    }
+  }
+
+  public async changePassword(
+    id_user: string,
+    changePasswordReq: ChangePasswordRequest,
+  ): Promise<Return<{ message: string }>> {
+    const userRepository = new UserRepository();
+    const [error, user] = await userRepository.getById(id_user);
+
+    if (error) return [error, null];
+    if (!user) return [{ message: 'User not found' }, null];
+
+    const { old_password, new_password } = changePasswordReq;
+
+    const isPasswordMatch = await bcrypt.compare(old_password, user.password);
+    if (!isPasswordMatch) return [{ message: 'Wrong old password' }, null];
+
+    const new_password_hash = await bcrypt.hash(new_password, user.salt);
+    const [changePasswordError, result] = await userRepository.update(id_user, { password: new_password_hash });
+
+    if (changePasswordError) return [changePasswordError, null];
+
+    if (result) {
+      return [changePasswordError, { message: 'Password changed' }];
+    } else {
+      return [{ message: 'Something went wrong' }, null];
     }
   }
 

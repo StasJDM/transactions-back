@@ -9,3 +9,8 @@ export interface RegisterRequest {
   first_name: string;
   last_name: string;
 }
+
+export interface ChangePasswordRequest {
+  old_password: string;
+  new_password: string;
+}
