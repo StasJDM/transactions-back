@@ -1,13 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config();
+import * as dotenv from 'dotenv';
 
-module.exports = {
+dotenv.config();
+
+export = {
   development: {
     username: process.env.PG_USER,
     password: process.env.PG_PASSWORD,
     database: process.env.PG_DATABASE,
     host: process.env.PG_HOST,
     dialect: 'postgres',
+    port: process.env.PG_PORT,
   },
   test: {
     username: 'root',

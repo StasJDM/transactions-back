@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  back-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    env_file: .env
+    environment:
+      PG_HOST: postgres
+    ports:
+      - ${APP_PORT}:3000
+    networks:
+      - app-network
+    volumes:
+      - back-learn-project:/home/node/back-app
+    command: sh -c "yarn migration:up && yarn start"
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    ports:
+      - ${PG_PORT}:5432
+    networks:
+      - app-network
+    volumes:
+      - back-learn-project:/var/lib/postgresql/data
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  back-learn-project:
