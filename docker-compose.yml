@@ -7,9 +7,11 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - postgres
+      - elasticsearch
     env_file: .env
     environment:
       PG_HOST: postgres
+      ELASTICSEARCH_HOST: http://elasticsearch
     ports:
       - ${APP_PORT}:3000
     networks:
@@ -30,6 +32,21 @@ services:
       - app-network
     volumes:
       - back-learn-project:/var/lib/postgresql/data
+
+  elasticsearch:
+    image: elasticsearch:7.14.2
+    ports:
+      - ${ELASTICSEARCH_PORT}:9200
+      - ${ELASTICSEARCH_NODE_PORT}:9300
+    environment:
+      ES_JAVA_OPTS: '-Xms256m -Xmx256m'
+      network.bind_host: 0.0.0.0
+      network.host: 0.0.0.0
+      discovery.type: single-node
+    networks:
+      - app-network
+    volumes:
+      - back-learn-project:/var/share/elasticsearch
 
 networks:
   app-network:

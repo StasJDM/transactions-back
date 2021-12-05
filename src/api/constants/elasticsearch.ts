@@ -1,0 +1,2 @@
+export const ELASTICSEARCH_HOST = process.env.ELASTICSEARCH_HOST;
+export const ELASTICSEARCH_PORT = process.env.ELASTICSEARCH_PORT;
