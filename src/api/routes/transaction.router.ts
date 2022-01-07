@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get('/', checkJwtToken, TransactionController.getAllUserTransactions);
 
+router.get('/amount', checkJwtToken, TransactionController.getAllUserTransactionsAmount);
+
 router.get('/outgoing', checkJwtToken, TransactionController.getOutgoingUserTransactions);
 
 router.get('/outgoing/amount', checkJwtToken, TransactionController.getOutgoingUserTransactionsAmount);

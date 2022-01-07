@@ -13,6 +13,17 @@ export class TransactionController {
     res.json(transactions);
   }
 
+  public static async getAllUserTransactionsAmount(req: Request, res: Response): Promise<Response | void> {
+    const transactionService = new TransactionService();
+
+    const [error, transactions] = await transactionService.getAllTransactionAmountByUserId(req.user.id);
+
+    if (error) {
+      return res.status(500).json(error);
+    }
+    res.json(transactions);
+  }
+
   public static async getOutgoingUserTransactions(req: Request, res: Response): Promise<Response | void> {
     const transactionService = new TransactionService();
 
