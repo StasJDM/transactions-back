@@ -51,7 +51,7 @@ export class TransactionController {
 
     const id_from = req.user.id;
     const { id_to, amount, label } = req.body;
-    const [result, error] = await transactionService.createTransaction(id_from, id_to, amount, label);
+    const [error, result] = await transactionService.createTransaction(id_from, id_to, amount, label);
 
     if (error) {
       return res.status(500).json(error);
