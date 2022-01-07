@@ -12,6 +12,24 @@ export class TransactionRepository {
     }
   }
 
+  public async getOutgoingByUserId(userId: string): Promise<Return<TransactionInstance[]>> {
+    try {
+      const transactions = await Transaction.findAll({ where: { id_from: userId } });
+      return [null, transactions];
+    } catch (error) {
+      return [error, null];
+    }
+  }
+
+  public async getIncomingByUserId(userId: string): Promise<Return<TransactionInstance[]>> {
+    try {
+      const transactions = await Transaction.findAll({ where: { id_to: userId } });
+      return [null, transactions];
+    } catch (error) {
+      return [error, null];
+    }
+  }
+
   public async getById(id: string): Promise<Return<TransactionInstance>> {
     try {
       const transaction = await Transaction.findOne({ where: { id } });

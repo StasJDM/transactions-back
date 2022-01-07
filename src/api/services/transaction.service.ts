@@ -11,6 +11,20 @@ export class TransactionService {
     return [error, transactions];
   }
 
+  public async getOutgoingTransactionByUserId(userId: string): Promise<Return<TransactionInstance[]>> {
+    const transactionRepository = new TransactionRepository();
+
+    const [error, transactions] = await transactionRepository.getOutgoingByUserId(userId);
+    return [error, transactions];
+  }
+
+  public async getIncomingTransactionByUserId(userId: string): Promise<Return<TransactionInstance[]>> {
+    const transactionRepository = new TransactionRepository();
+
+    const [error, transactions] = await transactionRepository.getIncomingByUserId(userId);
+    return [error, transactions];
+  }
+
   public async getTransactionById(id: string): Promise<Return<TransactionInstance>> {
     const transactionRepository = new TransactionRepository();
 
