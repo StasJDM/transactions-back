@@ -3,27 +3,31 @@ import Transaction, { TransactionCreationAttributes, TransactionInstance } from 
 import { Return } from '../types';
 
 export class TransactionRepository {
-  public async getAllByUserId(userId: string): Promise<Return<TransactionInstance[]>> {
+  public async getAllByUserId(userId: string, order = [], limit = 20): Promise<Return<TransactionInstance[]>> {
     try {
-      const transactions = await Transaction.findAll({ where: Sequelize.or({ id_from: userId }, { id_to: userId }) });
+      const transactions = await Transaction.findAll({
+        where: Sequelize.or({ id_from: userId }, { id_to: userId }),
+        order,
+        limit,
+      });
       return [null, transactions];
     } catch (error) {
       return [error, null];
     }
   }
 
-  public async getOutgoingByUserId(userId: string): Promise<Return<TransactionInstance[]>> {
+  public async getOutgoingByUserId(userId: string, order = [], limit = 20): Promise<Return<TransactionInstance[]>> {
     try {
-      const transactions = await Transaction.findAll({ where: { id_from: userId } });
+      const transactions = await Transaction.findAll({ where: { id_from: userId }, order, limit });
       return [null, transactions];
     } catch (error) {
       return [error, null];
     }
   }
 
-  public async getIncomingByUserId(userId: string): Promise<Return<TransactionInstance[]>> {
+  public async getIncomingByUserId(userId: string, order = [], limit = 20): Promise<Return<TransactionInstance[]>> {
     try {
-      const transactions = await Transaction.findAll({ where: { id_to: userId } });
+      const transactions = await Transaction.findAll({ where: { id_to: userId }, order, limit });
       return [null, transactions];
     } catch (error) {
       return [error, null];

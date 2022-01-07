@@ -37,6 +37,13 @@ export class TransactionService {
     return [error, transactions];
   }
 
+  public async getMostAmountOutgoingTransactionByUserId(userId: string): Promise<Return<TransactionInstance[]>> {
+    const transactionRepository = new TransactionRepository();
+
+    const [error, transactions] = await transactionRepository.getOutgoingByUserId(userId, [['amount', 'DESC']], 5);
+    return [error, transactions];
+  }
+
   public async getOutgoingTransactionAmountByUserId(userId: string): Promise<Return<{ amount: number }>> {
     const transactionRepository = new TransactionRepository();
 
@@ -52,6 +59,13 @@ export class TransactionService {
     const transactionRepository = new TransactionRepository();
 
     const [error, transactions] = await transactionRepository.getIncomingByUserId(userId);
+    return [error, transactions];
+  }
+
+  public async getMostAmountIncomingTransactionByUserId(userId: string): Promise<Return<TransactionInstance[]>> {
+    const transactionRepository = new TransactionRepository();
+
+    const [error, transactions] = await transactionRepository.getIncomingByUserId(userId, [['amount', 'DESC']], 5);
     return [error, transactions];
   }
 

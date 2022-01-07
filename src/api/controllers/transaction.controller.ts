@@ -46,6 +46,17 @@ export class TransactionController {
     res.json(transactionsAmount);
   }
 
+  public static async getMostAmountOutgoingUserTransactions(req: Request, res: Response): Promise<Response | void> {
+    const transactionService = new TransactionService();
+
+    const [error, transactions] = await transactionService.getMostAmountOutgoingTransactionByUserId(req.user.id);
+
+    if (error) {
+      return res.status(500).json(error);
+    }
+    res.json(transactions);
+  }
+
   public static async getIncomingUserTransactions(req: Request, res: Response): Promise<Response | void> {
     const transactionService = new TransactionService();
 
@@ -77,6 +88,17 @@ export class TransactionController {
       return res.status(500).json(error);
     }
     res.json(transaction);
+  }
+
+  public static async getMostAmountIncomingUserTransactions(req: Request, res: Response): Promise<Response | void> {
+    const transactionService = new TransactionService();
+
+    const [error, transactions] = await transactionService.getMostAmountIncomingTransactionByUserId(req.user.id);
+
+    if (error) {
+      return res.status(500).json(error);
+    }
+    res.json(transactions);
   }
 
   public static async createTransaction(req: Request, res: Response): Promise<Response | void> {

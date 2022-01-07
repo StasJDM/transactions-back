@@ -13,9 +13,13 @@ router.get('/outgoing', checkJwtToken, TransactionController.getOutgoingUserTran
 
 router.get('/outgoing/amount', checkJwtToken, TransactionController.getOutgoingUserTransactionsAmount);
 
+router.get('/outgoing/top', checkJwtToken, TransactionController.getMostAmountOutgoingUserTransactions);
+
 router.get('/incoming', checkJwtToken, TransactionController.getIncomingUserTransactions);
 
 router.get('/incoming/amount', checkJwtToken, TransactionController.getIncomingUserTransactionsAmount);
+
+router.get('/incoming/top', checkJwtToken, TransactionController.getMostAmountIncomingUserTransactions);
 
 router.get('/:id', checkJwtToken, getTransactionByIdValidator, TransactionController.getTransactionById);
 
