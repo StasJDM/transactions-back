@@ -18,11 +18,33 @@ export class TransactionService {
     return [error, transactions];
   }
 
+  public async getOutgoingTransactionAmountByUserId(userId: string): Promise<Return<{ amount: number }>> {
+    const transactionRepository = new TransactionRepository();
+
+    const [error, transactionsAmountFields] = await transactionRepository.getOutgoingByUserId(userId);
+    if (error) {
+      return [error, null];
+    }
+    const transactionsAmount = transactionsAmountFields.reduce((p, n) => p + n.amount, 0);
+    return [null, { amount: transactionsAmount }];
+  }
+
   public async getIncomingTransactionByUserId(userId: string): Promise<Return<TransactionInstance[]>> {
     const transactionRepository = new TransactionRepository();
 
     const [error, transactions] = await transactionRepository.getIncomingByUserId(userId);
     return [error, transactions];
+  }
+
+  public async getIncomingTransactionAmountByUserId(userId: string): Promise<Return<{ amount: number }>> {
+    const transactionRepository = new TransactionRepository();
+
+    const [error, transactionsAmountFields] = await transactionRepository.getIncomingByUserId(userId);
+    if (error) {
+      return [error, null];
+    }
+    const transactionsAmount = transactionsAmountFields.reduce((p, n) => p + n.amount, 0);
+    return [null, { amount: transactionsAmount }];
   }
 
   public async getTransactionById(id: string): Promise<Return<TransactionInstance>> {

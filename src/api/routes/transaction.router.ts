@@ -9,7 +9,11 @@ router.get('/', checkJwtToken, TransactionController.getAllUserTransactions);
 
 router.get('/outgoing', checkJwtToken, TransactionController.getOutgoingUserTransactions);
 
+router.get('/outgoing/amount', checkJwtToken, TransactionController.getOutgoingUserTransactionsAmount);
+
 router.get('/incoming', checkJwtToken, TransactionController.getIncomingUserTransactions);
+
+router.get('/incoming/amount', checkJwtToken, TransactionController.getIncomingUserTransactionsAmount);
 
 router.get('/:id', checkJwtToken, getTransactionByIdValidator, TransactionController.getTransactionById);
 

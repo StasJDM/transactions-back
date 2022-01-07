@@ -24,6 +24,17 @@ export class TransactionController {
     res.json(transactions);
   }
 
+  public static async getOutgoingUserTransactionsAmount(req: Request, res: Response): Promise<Response | void> {
+    const transactionService = new TransactionService();
+
+    const [error, transactionsAmount] = await transactionService.getOutgoingTransactionAmountByUserId(req.user.id);
+
+    if (error) {
+      return res.status(500).json(error);
+    }
+    res.json(transactionsAmount);
+  }
+
   public static async getIncomingUserTransactions(req: Request, res: Response): Promise<Response | void> {
     const transactionService = new TransactionService();
 
@@ -33,6 +44,17 @@ export class TransactionController {
       return res.status(500).json(error);
     }
     res.json(transactions);
+  }
+
+  public static async getIncomingUserTransactionsAmount(req: Request, res: Response): Promise<Response | void> {
+    const transactionService = new TransactionService();
+
+    const [error, transactionsAmount] = await transactionService.getIncomingTransactionAmountByUserId(req.user.id);
+
+    if (error) {
+      return res.status(500).json(error);
+    }
+    res.json(transactionsAmount);
   }
 
   public static async getTransactionById(req: Request, res: Response): Promise<Response | void> {
