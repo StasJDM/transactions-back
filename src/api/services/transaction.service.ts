@@ -18,12 +18,17 @@ export class TransactionService {
     return [error, transaction];
   }
 
-  public async createTransaction(id_from: string, id_to: string, amount: number): Promise<Return<TransactionInstance>> {
+  public async createTransaction(
+    id_from: string,
+    id_to: string,
+    amount: number,
+    label: string,
+  ): Promise<Return<TransactionInstance>> {
     const transactionRepository = new TransactionRepository();
 
     const id = uuid();
 
-    const transaction = { id, id_from, id_to, amount };
+    const transaction = { id, id_from, id_to, amount, label };
 
     const [result, error] = await transactionRepository.create(transaction);
     return [result, error];

@@ -7,6 +7,7 @@ interface TransactionAttributes {
   id_from: string;
   id_to: string;
   amount: number;
+  label: string;
 }
 
 export type TransactionCreationAttributes = Optional<TransactionAttributes, 'id'>;
@@ -37,6 +38,10 @@ const Transaction = sequelize.define<TransactionInstance>('Transaction', {
   amount: {
     allowNull: false,
     type: DataTypes.DOUBLE,
+  },
+  label: {
+    allowNull: true,
+    type: DataTypes.STRING,
   },
 });
 

@@ -6,5 +6,6 @@ export const getTransactionByIdValidator = [check('id').isUUID(), handleValidati
 export const createTransactionValidator = [
   check('id_to').notEmpty().isUUID(),
   check('amount').notEmpty().isNumeric(),
+  check('label').notEmpty().isString(),
   handleValidationError,
 ];
