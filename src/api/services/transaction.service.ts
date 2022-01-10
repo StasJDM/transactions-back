@@ -11,6 +11,13 @@ export class TransactionService {
     return [error, transactions];
   }
 
+  public async searchBySearchString(userId, searchString: string): Promise<Return<TransactionInstance[]>> {
+    const transactionRepository = new TransactionRepository();
+
+    const [error, transactions] = await transactionRepository.searchBySearchString(userId, searchString);
+    return [error, transactions];
+  }
+
   public async getAllTransactionAmountByUserId(
     userId: string,
   ): Promise<Return<{ incoming: number; outgoing: number }>> {

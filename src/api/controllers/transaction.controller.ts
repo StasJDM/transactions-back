@@ -13,6 +13,22 @@ export class TransactionController {
     res.json(transactions);
   }
 
+  public static async search(req: Request, res: Response): Promise<Response | void> {
+    const transactionService = new TransactionService();
+
+    console.log(req.query.searchString);
+
+    const [error, transactions] = await transactionService.searchBySearchString(
+      req.user.id,
+      req.query.searchString as string,
+    );
+
+    if (error) {
+      return res.status(500).json(error);
+    }
+    res.json(transactions);
+  }
+
   public static async getAllUserTransactionsAmount(req: Request, res: Response): Promise<Response | void> {
     const transactionService = new TransactionService();
 

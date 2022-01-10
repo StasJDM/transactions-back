@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import Transaction, { TransactionCreationAttributes, TransactionInstance } from '../../db/models/transaction.model';
 import { Return } from '../types';
 
@@ -9,6 +9,25 @@ export class TransactionRepository {
         where: Sequelize.or({ id_from: userId }, { id_to: userId }),
         order,
         limit,
+      });
+      return [null, transactions];
+    } catch (error) {
+      return [error, null];
+    }
+  }
+
+  public async searchBySearchString(userId, searchString: string): Promise<Return<TransactionInstance[]>> {
+    try {
+      const transactions = await Transaction.findAll({
+        where: {
+          [Op.and]: [
+            Sequelize.or(
+              { label: { [Op.iLike]: `%${searchString}%` } },
+              { amount: { [Op.iLike]: `%${searchString}%` } },
+            ),
+            Sequelize.or({ id_from: userId }, { id_to: userId }),
+          ],
+        },
       });
       return [null, transactions];
     } catch (error) {
