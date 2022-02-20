@@ -11,7 +11,7 @@
     "format": "eslint src/**/*.ts --fix",
     "prepare": "husky install",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migration:up": "npx sequelize-cli db:migrate"
+    "migration:up": "yarn build && npx sequelize-cli db:migrate"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +28,7 @@
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.9.0",
+    "sequelize-cli": "^6.4.1",
     "uuidv4": "^6.2.12"
   },
   "devDependencies": {
