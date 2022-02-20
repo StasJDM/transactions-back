@@ -11,7 +11,9 @@
     "format": "eslint src/**/*.ts --fix",
     "prepare": "husky install",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migration:up": "yarn build && npx sequelize-cli db:migrate"
+    "migration:up": "yarn build && npx sequelize-cli db:migrate",
+    "seed:up": "yarn sequelize-cli db:seed:all",
+    "seed:undo": "yarn sequelize-cli db:seed:undo:all"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +25,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.13.0",
+    "faker": "5.5.3",
     "jsonwebtoken": "^8.5.1",
     "path": "^0.12.7",
     "pg": "^8.7.1",
